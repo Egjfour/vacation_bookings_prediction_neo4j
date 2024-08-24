@@ -51,7 +51,9 @@ class PropertyDataBuilder(DataBuilder):
                     else:
                         raise ValueError('Invalid feature data type.')
             all_records.append(current_record)
-        return pd.DataFrame(all_records)
+        df = pd.DataFrame(all_records)
+        df['id'] = df.index
+        return df
     
 class BookingsDataBuilder(DataBuilder):
     def __init__(self,
@@ -120,6 +122,8 @@ class BookingsDataBuilder(DataBuilder):
             .head(self._num_observations)
             .drop(columns=['booking_probability'])
             .reset_index(drop=True)
+            .assign(booking_id=lambda x: "B-" + x.index.astype(str))
+            .rename(columns = {"id": "property_id"})
             )
 
     def retrieve_data(self):
