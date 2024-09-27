@@ -3,3 +3,4 @@ __pycache__
 *.pyc
 testing.ipynb
 relate.project.json
+.virtualenv
